@@ -6,7 +6,7 @@ import java.util.ArrayList;
 
 import static com.manh.bomberman.entitis.MapItem.SIZE;
 
-public class Player {
+public class Bomber {
     private int x;
     private int y;
     private int orient;
@@ -50,7 +50,7 @@ public class Player {
             new ImageIcon(getClass().getResource("/res/drawable/images/player_down_4.png")).getImage(),
             new ImageIcon(getClass().getResource("/res/drawable/images/player_down_5.png")).getImage(),
     };
-    public Player(int x, int y, int orient,int timeMove) {
+    public Bomber(int x, int y, int orient, int timeMove) {
         this.x = x;
         this.y = y;
         this.timeMove=timeMove;
@@ -146,27 +146,27 @@ public class Player {
         return false;
     }
 
-    public void setMoveBoom(ArrayList<Boom> arrBoom){
-        for (Boom boom : arrBoom) {
-            Rectangle rectangle = getRect().intersection(boom.getRect());
+    public void setMoveBoom(ArrayList<Bomb> arrBomb){
+        for (Bomb bomb : arrBomb) {
+            Rectangle rectangle = getRect().intersection(bomb.getRect());
             if (rectangle.isEmpty()) {
-                boom.setCheckBoom(0);
+                bomb.setCheckBoom(0);
             }
         }
     }
 
-    public boolean checkMoveBoom(ArrayList<Boom> arrBoom){
-        setMoveBoom(arrBoom);
-        for (Boom boom : arrBoom) {
-            Rectangle rectangle = getRect().intersection(boom.getRect());
-            if (!rectangle.isEmpty() && boom.isCheckBoom() == 0) {
+    public boolean checkMoveBoom(ArrayList<Bomb> arrBomb){
+        setMoveBoom(arrBomb);
+        for (Bomb bomb : arrBomb) {
+            Rectangle rectangle = getRect().intersection(bomb.getRect());
+            if (!rectangle.isEmpty() && bomb.isCheckBoom() == 0) {
                 return false;
             }
         }
         return true;
     }
 
-    public void move(ArrayList<MapItem> arrMapItem, ArrayList<Boom> arrBoom, int t){
+    public void move(ArrayList<MapItem> arrMapItem, ArrayList<Bomb> arrBomb, int t){
         if (t%timeMove!=0){
             return;
         }
@@ -191,7 +191,7 @@ public class Player {
         x=xRaw;
         y=yRaw;
         boolean checkMovePlayer= checkMoveMap(arrMapItem);
-        boolean checkMovePlayerToBoom= checkMoveBoom(arrBoom);
+        boolean checkMovePlayerToBoom= checkMoveBoom(arrBomb);
         if (checkMovePlayer){
             x=xRaw1;
             y=yRaw1;
@@ -212,13 +212,13 @@ public class Player {
         return false;
     }
 
-    public Boom DatBoom(){
+    public Bomb DatBoom(){
         int xRaw= this.x+SIZE/2;
         int yRaw= this.y+SIZE/2;
         int xBoom= xRaw-xRaw%SIZE+15;
         int yBoom= yRaw-yRaw%SIZE;
         int lengBoom=this.lenghBoomBang;
-        return new Boom(xBoom, yBoom,lengBoom);
+        return new Bomb(xBoom, yBoom,lengBoom);
     }
 
     public void moveItem(ArrayList<Item> arrItem){

@@ -6,7 +6,7 @@ import java.util.ArrayList;
 
 import static com.manh.bomberman.entitis.MapItem.SIZE;
 
-public class BoomBang {
+public class BombBang {
     private int x;
     private int y;
     public int lengh=2;
@@ -38,7 +38,7 @@ public class BoomBang {
             new ImageIcon(getClass().getResource("/res/drawable/images/del_4.png")).getImage(),
     };
 
-    public BoomBang(int x, int y, int lenghWave) {
+    public BombBang(int x, int y, int lenghWave) {
         this.x = x;
         this.y = y;
         this.lenghLeft=lenghWave;
@@ -46,16 +46,16 @@ public class BoomBang {
         this.lenghDown=lenghWave;
         this.lenghUp=lenghWave;
     }
-    public boolean checkBoomToPlayer(ArrayList<BoomBang> arrBoomBang, Player player){
-        for (int i = 0; i< arrBoomBang.size(); i++){
-            Rectangle rectangle1= getRect(x+10,y+20).intersection(player.getRect());
+    public boolean checkBoomToPlayer(ArrayList<BombBang> arrBombBang, Bomber bomber){
+        for (int i = 0; i< arrBombBang.size(); i++){
+            Rectangle rectangle1= getRect(x+10,y+20).intersection(bomber.getRect());
             if (!rectangle1.isEmpty()){
                 return true;
             }
             for (int j=1;j<=lenghLeft;j++){
                 int xRaw = x - j * SIZE + 10;
                 int yRaw = y + 20;
-                Rectangle rectangle=getRect(xRaw,yRaw).intersection(player.getRect());
+                Rectangle rectangle=getRect(xRaw,yRaw).intersection(bomber.getRect());
                 if (!rectangle.isEmpty()){
                     return true;
                 }
@@ -63,7 +63,7 @@ public class BoomBang {
             for (int j=1;j<=lenghRight;j++){
                 int xRaw = x + j * SIZE + 10;
                 int yRaw = y + 20;
-                Rectangle rectangle=getRect(xRaw,yRaw).intersection(player.getRect());
+                Rectangle rectangle=getRect(xRaw,yRaw).intersection(bomber.getRect());
                 if (!rectangle.isEmpty()){
                     return true;
                 }
@@ -71,7 +71,7 @@ public class BoomBang {
             for (int j=1;j<=lenghUp;j++){
                 int xRaw = x + 10;
                 int yRaw = y - j * SIZE + 20;
-                Rectangle rectangle=getRect(xRaw,yRaw).intersection(player.getRect());
+                Rectangle rectangle=getRect(xRaw,yRaw).intersection(bomber.getRect());
                 if (!rectangle.isEmpty()){
                     return true;
                 }
@@ -79,7 +79,7 @@ public class BoomBang {
             for (int j=1;j<=lenghDown;j++){
                 int xRaw = x + 10;
                 int yRaw = y + j * SIZE + 20;
-                Rectangle rectangle=getRect(xRaw,yRaw).intersection(player.getRect());
+                Rectangle rectangle=getRect(xRaw,yRaw).intersection(bomber.getRect());
                 if (!rectangle.isEmpty()){
                     return true;
                 }
@@ -143,16 +143,16 @@ public class BoomBang {
         }
     }
 
-    public void checkBoomToBoom(ArrayList<Boom> arrBoom, ArrayList<Integer> timeBoom) {
-        for (int i = 0; i < arrBoom.size(); i++) {
-            Rectangle rectangle1= getRect(x+10,y+20).intersection(arrBoom.get(i).getRect());
+    public void checkBoomToBoom(ArrayList<Bomb> arrBomb, ArrayList<Integer> timeBoom) {
+        for (int i = 0; i < arrBomb.size(); i++) {
+            Rectangle rectangle1= getRect(x+10,y+20).intersection(arrBomb.get(i).getRect());
             if (!rectangle1.isEmpty()){
                 timeBoom.set(i,0);
             }
             for (int j=1;j<=lenghLeft;j++) {
                 int xRaw = x - j * SIZE + 10;
                 int yRaw = y + 20;
-                Rectangle rectangle = getRect(xRaw, yRaw).intersection(arrBoom.get(i).getRect());
+                Rectangle rectangle = getRect(xRaw, yRaw).intersection(arrBomb.get(i).getRect());
                 if (!rectangle.isEmpty()) {
                     timeBoom.set(i, 0);
                 }
@@ -160,7 +160,7 @@ public class BoomBang {
             for (int j=1;j<=lenghRight;j++) {
                 int xRaw = x + j*SIZE + 10;
                 int yRaw = y + 20;
-                Rectangle rectangle = getRect(xRaw, yRaw).intersection(arrBoom.get(i).getRect());
+                Rectangle rectangle = getRect(xRaw, yRaw).intersection(arrBomb.get(i).getRect());
                 if (!rectangle.isEmpty()) {
                     timeBoom.set(i, 0);
                 }
@@ -168,7 +168,7 @@ public class BoomBang {
             for (int j=1;j<=lenghUp;j++) {
                 int xRaw = x + 10;
                 int yRaw = y - j*SIZE + 20;
-                Rectangle rectangle = getRect(xRaw, yRaw).intersection(arrBoom.get(i).getRect());
+                Rectangle rectangle = getRect(xRaw, yRaw).intersection(arrBomb.get(i).getRect());
                 if (!rectangle.isEmpty()) {
                     timeBoom.set(i, 0);
                 }
@@ -176,7 +176,7 @@ public class BoomBang {
             for (int j=1;j<=lenghDown;j++) {
                 int xRaw = x+10;
                 int yRaw = y+j*SIZE+20;
-                Rectangle rectangle = getRect(xRaw, yRaw).intersection(arrBoom.get(i).getRect());
+                Rectangle rectangle = getRect(xRaw, yRaw).intersection(arrBomb.get(i).getRect());
                 if (!rectangle.isEmpty()) {
                     timeBoom.set(i, 0);
                 }
@@ -196,7 +196,7 @@ public class BoomBang {
         }
     }
     public void drawMid(Graphics2D g2d) {
-        g2d.drawImage(BOOM_BANG[4], x + 12, y + 16, null);
+        g2d.drawImage(BOOM_BANG[4], x + 13, y + 16, null);
     }
 
     public Rectangle getRect(int xRaw,int yRaw) {
@@ -205,7 +205,7 @@ public class BoomBang {
 
     public void drawLeft(Graphics2D g2d, ArrayList<MapItem> arrMapItem) {
         for (int j = 1; j <= lenghLeft; j++) {
-            int xRaw = x - j * SIZE + 10;
+            int xRaw = x - j * SIZE + 11;
             int yRaw = y + 20;
             if (j==lenghLeft) {
                 g2d.drawImage(BOOM_BANG[0], xRaw+5, yRaw-6, null);
@@ -231,7 +231,7 @@ public class BoomBang {
 
     public void drawRight(Graphics2D g2d, ArrayList<MapItem> arrMapItem) {
         for (int j=1;j<=lenghRight;j++) {
-            int xRaw = x + j*SIZE + 14;
+            int xRaw = x + j*SIZE + 15;
             int yRaw = y + 20;
             if (j==lenghRight) {
                 g2d.drawImage(BOOM_BANG[1], xRaw-3, yRaw-6, null);
@@ -258,7 +258,7 @@ public class BoomBang {
 
     public void drawUp(Graphics2D g2d, ArrayList<MapItem> arrMapItem) {
         for (int j=1;j<=lenghUp;j++) {
-            int xRaw = x + 14;
+            int xRaw = x + 15;
             int yRaw = y - j*SIZE + 12;
             if (j==lenghUp) {
                 g2d.drawImage(BOOM_BANG[2], xRaw, yRaw+5, null);
@@ -287,12 +287,12 @@ public class BoomBang {
 
     public void drawDown(Graphics2D g2d, ArrayList<MapItem> arrMapItem) {
         for (int j=1;j<=lenghDown;j++) {
-            int xRaw = x+14;
+            int xRaw = x+13;
             int yRaw = y+j*SIZE+20;
             if (j==lenghDown) {
                 g2d.drawImage(BOOM_BANG[3], xRaw, yRaw-3, null);
             }else {
-                g2d.drawImage(BOOM_BANG[8], xRaw, yRaw, null);
+                g2d.drawImage(BOOM_BANG[8], xRaw, yRaw - 1, null);
             }
             for (int i = 0; i < arrMapItem.size(); i++) {
                 Rectangle rectangle = getRect(xRaw,yRaw).intersection(arrMapItem.get(i).getRect());

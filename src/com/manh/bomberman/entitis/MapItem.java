@@ -8,6 +8,7 @@ public class MapItem {
     private int y;
     public int bit;
     public static final int SIZE=45;
+
     public final Image[] MY_IMAGE={
             new ImageIcon(getClass().getResource("/res/drawable/images/stone.png")).getImage(),
             new ImageIcon(getClass().getResource("/res/drawable/images/wood.png")).getImage(),

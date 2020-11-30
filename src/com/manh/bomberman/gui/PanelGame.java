@@ -1,7 +1,7 @@
 package com.manh.bomberman.gui;
 
 import com.manh.bomberman.manager.GameManager;
-import com.manh.bomberman.entitis.Player;
+import com.manh.bomberman.entitis.Bomber;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
@@ -34,13 +34,13 @@ public class PanelGame extends JPanel implements KeyListener,Runnable{
         while (isRunning){
             t++;
             if (bitSet.get(KeyEvent.VK_LEFT)){
-                gameManager.movePlayer(Player.LEFT);
+                gameManager.movePlayer(Bomber.LEFT);
             }else if (bitSet.get(KeyEvent.VK_RIGHT)){
-                gameManager.movePlayer(Player.RIGHT);
+                gameManager.movePlayer(Bomber.RIGHT);
             }else if (bitSet.get(KeyEvent.VK_UP)){
-                gameManager.movePlayer(Player.UP);
+                gameManager.movePlayer(Bomber.UP);
             }else if (bitSet.get(KeyEvent.VK_DOWN)){
-                gameManager.movePlayer(Player.DOWN);
+                gameManager.movePlayer(Bomber.DOWN);
             }try {
                 if (bitSet.get(KeyEvent.VK_SPACE)){
                     if (t-time>=TIME_DAT) {

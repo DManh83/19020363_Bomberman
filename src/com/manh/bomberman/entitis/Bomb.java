@@ -5,14 +5,14 @@ import java.awt.*;
 
 import static com.manh.bomberman.entitis.MapItem.SIZE;
 
-public class Boom {
+public class Bomb {
     private int x;
     private int y;
     public int checkBoom;
     private Image image;
     private final int lenghBoom;
 
-    public Boom(int x, int y,int lenghBoom) {
+    public Bomb(int x, int y, int lenghBoom) {
         this.x = x-20;
         this.y = y;
         this.lenghBoom = lenghBoom;
@@ -37,10 +37,10 @@ public class Boom {
         return new Rectangle(x+15,y+15,SIZE-10,SIZE-10);
     }
 
-    public BoomBang boomBang(){
+    public BombBang boomBang(){
         int xRaw= x-10;
         int yRaw= y-10;
-        return new BoomBang(xRaw,yRaw, this.lenghBoom);
+        return new BombBang(xRaw,yRaw, this.lenghBoom);
     }
 }
 

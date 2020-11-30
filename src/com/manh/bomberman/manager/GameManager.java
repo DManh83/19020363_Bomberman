@@ -13,11 +13,11 @@ import static com.manh.bomberman.gui.Gui.H_FARME;
 import static com.manh.bomberman.gui.Gui.W_FARME;
 
 public class GameManager {
-    private Player player;
+    private Bomber bomber;
     private ArrayList<MapItem> arrMapItem;
-    private ArrayList<Boom> arrBoom;
+    private ArrayList<Bomb> arrBomb;
     private ArrayList<Boss> arrBoss;
-    private ArrayList<BoomBang> arrBoomBang;
+    private ArrayList<BombBang> arrBombBang;
     private ArrayList<Item> arrItem;
     public static final int TIME_BANG=120;
     public static final int TIME_WAVE=15;
@@ -41,11 +41,11 @@ public class GameManager {
     public void initGame(){
         timeBoom=new ArrayList<>();
         timeWave=new ArrayList<>();
-        arrBoom=new ArrayList<>();
+        arrBomb =new ArrayList<>();
         arrBoss= new ArrayList<>();
-        arrBoomBang = new ArrayList<>();
+        arrBombBang = new ArrayList<>();
         arrItem=new ArrayList<>();
-        player=new Player(W_FARME/2,H_FARME-90-SIZE,Player.DOWN,1);
+        bomber =new Bomber(W_FARME/2,H_FARME-90-SIZE, Bomber.DOWN,1);
         arrMapItem =new ArrayList<>();
         readMap();
         initBoss();
@@ -80,19 +80,19 @@ public class GameManager {
     }
 
     public void movePlayer(int newOrient){
-        player.changeOrient(newOrient);
-        player.move(arrMapItem,arrBoom,1);
-        player.moveItem(arrItem);
+        bomber.changeOrient(newOrient);
+        bomber.move(arrMapItem, arrBomb,1);
+        bomber.moveItem(arrItem);
     }
 
     public void draw(Graphics2D g2d){
         g2d.drawImage(MY_IMAGE[0],0,0,W_FARME,H_FARME,null);
         try {
-            for (Boom boom : arrBoom) {
-                boom.draw(g2d);
+            for (Bomb bomb : arrBomb) {
+                bomb.draw(g2d);
             }
-            for (BoomBang boomBang : arrBoomBang) {
-                boomBang.draw(g2d, arrMapItem);
+            for (BombBang bombBang : arrBombBang) {
+                bombBang.draw(g2d, arrMapItem);
             }
             for (Item item:arrItem){
                 item.draw(g2d);
@@ -104,50 +104,50 @@ public class GameManager {
             for (Boss boss : arrBoss) {
                 boss.drawBoss(g2d);
             }
-            player.draw(g2d);
+            bomber.draw(g2d);
         }catch (ConcurrentModificationException ignored){
 
         }
     }
 
     public void myPlayerBoom(int t){
-        Boom boom= player.DatBoom();
-        if (arrBoom.size()<player.getSoBoom()){
-            arrBoom.add(boom);
+        Bomb bomb = bomber.DatBoom();
+        if (arrBomb.size()< bomber.getSoBoom()){
+            arrBomb.add(bomb);
             timeBoom.add(t);
         }
     }
 
     public boolean AI(int t){
         for (int i=arrBoss.size()-1;i>=0;i--){
-            arrBoss.get(i).moveBoss(arrMapItem,arrBoom);
+            arrBoss.get(i).moveBoss(arrMapItem, arrBomb);
         }
-        for (int i=0;i<arrBoom.size();i++){
+        for (int i = 0; i< arrBomb.size(); i++){
             if (t-timeBoom.get(i) >=TIME_BANG){
-                BoomBang boomBang = arrBoom.get(i).boomBang();
-                arrBoom.remove(i);
-                arrBoomBang.add(boomBang);
+                BombBang bombBang = arrBomb.get(i).boomBang();
+                arrBomb.remove(i);
+                arrBombBang.add(bombBang);
                 timeBoom.remove(i);
                 try {
-                    boomBang.checkBoomToBoom(arrBoom, timeBoom);
+                    bombBang.checkBoomToBoom(arrBomb, timeBoom);
                 }catch (IndexOutOfBoundsException ignored){
                 }
                 timeWave.add(t);
             }
         }
-        for (int i = 0; i< arrBoomBang.size(); i++){
-            arrBoomBang.get(i).checkBoomToBoss(arrBoss);
+        for (int i = 0; i< arrBombBang.size(); i++){
+            arrBombBang.get(i).checkBoomToBoss(arrBoss);
             if (t-timeWave.get(i)>=TIME_WAVE){
-                arrBoomBang.remove(i);
+                arrBombBang.remove(i);
                 timeWave.remove(i);
             }
         }
-        if (player.checkDieToBoss(arrBoss)){
+        if (bomber.checkDieToBoss(arrBoss)){
             setCheckWin(false);
             return false;
         }
-        for (int i = 0; i< arrBoomBang.size(); i++){
-            if(arrBoomBang.get(i).checkBoomToPlayer(arrBoomBang, player)){
+        for (int i = 0; i< arrBombBang.size(); i++){
+            if(arrBombBang.get(i).checkBoomToPlayer(arrBombBang, bomber)){
                 timeDie=t;
                 setCheckWin(false);
                 return false;

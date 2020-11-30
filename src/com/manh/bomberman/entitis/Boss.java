@@ -68,17 +68,17 @@ public class Boss {
     }
 
 
-    public boolean checkMoveBoom(ArrayList<Boom> arrBoom){
-        for (Boom boom : arrBoom) {
-            Rectangle rectangle = getRect().intersection(boom.getRect());
-            if (!rectangle.isEmpty() && boom.isCheckBoom() == 0) {
+    public boolean checkMoveBoom(ArrayList<Bomb> arrBomb){
+        for (Bomb bomb : arrBomb) {
+            Rectangle rectangle = getRect().intersection(bomb.getRect());
+            if (!rectangle.isEmpty() && bomb.isCheckBoom() == 0) {
                 return false;
             }
         }
         return true;
     }
 
-    public void moveBoss(ArrayList<MapItem> arrMapItem, ArrayList<Boom> arrBoom) {
+    public void moveBoss(ArrayList<MapItem> arrMapItem, ArrayList<Bomb> arrBomb) {
         int speed = 2;
         int xRaw = x;
         int yRaw = y;
@@ -101,7 +101,7 @@ public class Boss {
         x = xRaw;
         y = yRaw;
         boolean checkMoveBoss = checkMove(arrMapItem);
-        boolean checkMoveBossBoom= checkMoveBoom(arrBoom);
+        boolean checkMoveBossBoom= checkMoveBoom(arrBomb);
         if (checkMoveBoss){
             x=xRaw1;
             y=yRaw1;
