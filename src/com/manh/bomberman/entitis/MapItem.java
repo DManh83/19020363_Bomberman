@@ -3,48 +3,43 @@ package com.manh.bomberman.entitis;
 import javax.swing.*;
 import java.awt.*;
 
-public class MapItem {
-    private int x;
-    private int y;
+public class MapItem extends Entity{
     public int bit;
-    public static final int SIZE=45;
-
-    public final Image[] MY_IMAGE={
-            new ImageIcon(getClass().getResource("/res/drawable/images/stone.png")).getImage(),
-            new ImageIcon(getClass().getResource("/res/drawable/images/wood.png")).getImage(),
-            new ImageIcon(getClass().getResource("/res/drawable/images/tree.png")).getImage(),
-            new ImageIcon(getClass().getResource("/res/drawable/images/boxleft.png")).getImage(),
-            new ImageIcon(getClass().getResource("/res/drawable/images/boxright.png")).getImage(),
-    };
 
     public MapItem(int x, int y, int bit) {
-        this.x = x;
-        this.y = y;
+        super(x, y);
         this.bit = bit;
     }
 
+    @Override
     public int getX() {
-        return x;
+        return super.getX();
     }
 
+    @Override
     public void setX(int x) {
-        this.x = x;
+        super.setX(x);
     }
 
+    @Override
     public int getY() {
-        return y;
+        return super.getY();
     }
 
+    @Override
     public void setY(int y) {
-        this.y = y;
+        super.setY(y);
     }
 
+    @Override
     public Rectangle getRect(){
-        return new Rectangle(x,y+15,SIZE-10,SIZE-10);
+        return new Rectangle(getX(),getY()+15,SIZE-10,SIZE-10);
     }
+
+    @Override
     public void draw(Graphics2D g2d){
         if (bit!=0) {
-            g2d.drawImage(MY_IMAGE[bit-1], x,y,SIZE+2,SIZE+2,null);
+            g2d.drawImage(MY_IMAGE[bit-1], getX(), getY(),SIZE+2,SIZE+2,null);
         }
     }
 }

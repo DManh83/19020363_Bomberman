@@ -4,57 +4,109 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
 
-import static com.manh.bomberman.entitis.MapItem.SIZE;
-
-public class Bomber {
-    private int x;
-    private int y;
-    private int orient;
-    public Image image;
+public class Bomber extends Entity{
     private int soBoom=1;
     private int speed=2;
-    private final int timeMove;
+    private int timeMove;
     private int lenghBoomBang=1;
     private boolean isPlayerRun= false;
-    public static final int LEFT=0;
-    public static final int RIGHT=1;
-    public static final int UP=2;
-    public static final int DOWN=3;
     private int imageIndex=0;
 
-    public final Image[] IMAGES_PLAYER_LEFT= {
-            new ImageIcon(getClass().getResource("/res/drawable/images/player_left_1.png")).getImage(),
-            new ImageIcon(getClass().getResource("/res/drawable/images/player_left_2.png")).getImage(),
-            new ImageIcon(getClass().getResource("/res/drawable/images/player_left_3.png")).getImage(),
-            new ImageIcon(getClass().getResource("/res/drawable/images/player_left_4.png")).getImage(),
-            new ImageIcon(getClass().getResource("/res/drawable/images/player_left_5.png")).getImage(),
-    };
-    public final Image[] IMAGES_PLAYER_RIGHT= {
-            new ImageIcon(getClass().getResource("/res/drawable/images/player_right_1.png")).getImage(),
-            new ImageIcon(getClass().getResource("/res/drawable/images/player_right_2.png")).getImage(),
-            new ImageIcon(getClass().getResource("/res/drawable/images/player_right_3.png")).getImage(),
-            new ImageIcon(getClass().getResource("/res/drawable/images/player_right_4.png")).getImage(),
-            new ImageIcon(getClass().getResource("/res/drawable/images/player_right_5.png")).getImage(),
-    };
-    public final Image[] IMAGES_PLAYER_UP= {
-            new ImageIcon(getClass().getResource("/res/drawable/images/player_up_1.png")).getImage(),
-            new ImageIcon(getClass().getResource("/res/drawable/images/player_up_2.png")).getImage(),
-            new ImageIcon(getClass().getResource("/res/drawable/images/player_up_3.png")).getImage(),
-            new ImageIcon(getClass().getResource("/res/drawable/images/player_up_4.png")).getImage(),
-            new ImageIcon(getClass().getResource("/res/drawable/images/player_up_5.png")).getImage(),
-    };
-    public final Image[] IMAGES_PLAYER_DOWN= {
-            new ImageIcon(getClass().getResource("/res/drawable/images/player_down_1.png")).getImage(),
-            new ImageIcon(getClass().getResource("/res/drawable/images/player_down_2.png")).getImage(),
-            new ImageIcon(getClass().getResource("/res/drawable/images/player_down_3.png")).getImage(),
-            new ImageIcon(getClass().getResource("/res/drawable/images/player_down_4.png")).getImage(),
-            new ImageIcon(getClass().getResource("/res/drawable/images/player_down_5.png")).getImage(),
-    };
     public Bomber(int x, int y, int orient, int timeMove) {
-        this.x = x;
-        this.y = y;
-        this.timeMove=timeMove;
-        this.orient = orient;
+        super(x, y, orient);
+        this.timeMove = timeMove;
+    }
+
+    @Override
+    public int getX() {
+        return super.getX();
+    }
+
+    @Override
+    public void setX(int x) {
+        super.setX(x);
+    }
+
+    @Override
+    public int getY() {
+        return super.getY();
+    }
+
+    @Override
+    public void setY(int y) {
+        super.setY(y);
+    }
+
+    @Override
+    public Image getImage() {
+        return super.getImage();
+    }
+
+    @Override
+    public void setImage(Image image) {
+        super.setImage(image);
+    }
+
+    @Override
+    public int getOrient() {
+        return super.getOrient();
+    }
+
+    @Override
+    public void setOrient(int orient) {
+        super.setOrient(orient);
+    }
+
+    @Override
+    public void draw(Graphics2D g2d){
+        switch (getOrient()){
+            case LEFT:{
+                if (isStop()){
+                    g2d.drawImage(IMAGES_BOMBER_LEFT[0],getX(),getY(),SIZE+5,SIZE+15,null);
+                }
+                else {
+                    imageIndex++;
+                    g2d.drawImage(IMAGES_BOMBER_LEFT[imageIndex / 10 % IMAGES_BOMBER_LEFT.length], getX(), getY(),SIZE+5,SIZE+15, null);
+                }
+                break;
+            }
+            case RIGHT:{
+                if (isStop()){
+                    g2d.drawImage(IMAGES_BOMBER_RIGHT[0],getX(),getY(),SIZE+5,SIZE+15,null);
+                }
+                else {
+                    imageIndex++;
+                    g2d.drawImage(IMAGES_BOMBER_RIGHT[imageIndex / 10 % IMAGES_BOMBER_RIGHT.length],getX(), getY(), SIZE+5,SIZE+15,null);
+                }
+                break;
+            }
+            case UP:{
+                if (isStop()){
+                    g2d.drawImage(IMAGES_BOMBER_UP[0],getX(),getY(),SIZE+5,SIZE+15,null);
+                }
+                else {
+                    imageIndex++;
+                    g2d.drawImage(IMAGES_BOMBER_UP[imageIndex / 10 % IMAGES_BOMBER_UP.length], getX(), getY(),SIZE+5,SIZE+15, null);
+                }
+                break;
+            }
+            case DOWN:{
+                if (isStop()){
+                    g2d.drawImage(IMAGES_BOMBER_DOWN[0],getX(),getY(),SIZE+5,SIZE+15,null);
+                }
+                else {
+                    imageIndex++;
+                    g2d.drawImage(IMAGES_BOMBER_DOWN[imageIndex / 10 % IMAGES_BOMBER_LEFT.length], getX(), getY(),SIZE+5,SIZE+15,null);
+                }
+            }
+            break;
+        }
+        isPlayerRun=false;
+    }
+
+    @Override
+    public Rectangle getRect(){
+        return new Rectangle(getX(),getY()+25,SIZE-10,SIZE-10);
     }
 
     public int getSoBoom() {
@@ -74,62 +126,12 @@ public class Bomber {
     }
 
     public void changeOrient(int newOrient){
-        orient=newOrient;
+        setOrient(newOrient);
         isPlayerRun=true;
     }
 
     public boolean isStop() {
         return !isPlayerRun;
-    }
-
-    public void draw(Graphics2D g2d){
-        switch (orient){
-            case LEFT:{
-                if (isStop()){
-                    g2d.drawImage(IMAGES_PLAYER_LEFT[0],x,y,SIZE+5,SIZE+15,null);
-                }
-                else {
-                    imageIndex++;
-                    g2d.drawImage(IMAGES_PLAYER_LEFT[imageIndex / 10 % IMAGES_PLAYER_LEFT.length], x, y,SIZE+5,SIZE+15, null);
-                }
-                break;
-            }
-            case RIGHT:{
-                if (isStop()){
-                    g2d.drawImage(IMAGES_PLAYER_RIGHT[0],x,y,SIZE+5,SIZE+15,null);
-                }
-                else {
-                    imageIndex++;
-                    g2d.drawImage(IMAGES_PLAYER_RIGHT[imageIndex / 10 % IMAGES_PLAYER_RIGHT.length], x, y, SIZE+5,SIZE+15,null);
-                }
-                break;
-            }
-            case UP:{
-                if (isStop()){
-                    g2d.drawImage(IMAGES_PLAYER_UP[0],x,y,SIZE+5,SIZE+15,null);
-                }
-                else {
-                    imageIndex++;
-                    g2d.drawImage(IMAGES_PLAYER_UP[imageIndex / 10 % IMAGES_PLAYER_UP.length], x, y,SIZE+5,SIZE+15, null);
-                }
-                break;
-            }
-            case DOWN:{
-                if (isStop()){
-                    g2d.drawImage(IMAGES_PLAYER_DOWN[0],x,y,SIZE+5,SIZE+15,null);
-                }
-                else {
-                    imageIndex++;
-                    g2d.drawImage(IMAGES_PLAYER_DOWN[imageIndex / 10 % IMAGES_PLAYER_LEFT.length], x, y,SIZE+5,SIZE+15,null);
-                }
-            }
-            break;
-        }
-        isPlayerRun=false;
-    }
-
-    public Rectangle getRect(){
-        return new Rectangle(x,y+25,SIZE-10,SIZE-10);
     }
 
     public boolean checkMoveMap(ArrayList<MapItem> arrMapItem){
@@ -170,9 +172,9 @@ public class Bomber {
         if (t%timeMove!=0){
             return;
         }
-        int xRaw=x;
-        int yRaw=y;
-        switch (orient){
+        int xRaw=getX();
+        int yRaw=getY();
+        switch (getOrient()){
             case LEFT:
                 xRaw-=speed;
                 break;
@@ -186,19 +188,19 @@ public class Bomber {
                 yRaw+=speed;
             default:
         }
-        int xRaw1=x;
-        int yRaw1=y;
-        x=xRaw;
-        y=yRaw;
+        int xRaw1=getX();
+        int yRaw1=getY();
+        setX(xRaw);
+        setY(yRaw);
         boolean checkMovePlayer= checkMoveMap(arrMapItem);
         boolean checkMovePlayerToBoom= checkMoveBoom(arrBomb);
         if (checkMovePlayer){
-            x=xRaw1;
-            y=yRaw1;
+            setX(xRaw1);
+            setY(yRaw1);
         }
         if (!checkMovePlayerToBoom){
-            x=xRaw1;
-            y=yRaw1;
+            setX(xRaw1);
+            setY(yRaw1);
         }
     }
 
@@ -213,8 +215,8 @@ public class Bomber {
     }
 
     public Bomb DatBoom(){
-        int xRaw= this.x+SIZE/2;
-        int yRaw= this.y+SIZE/2;
+        int xRaw= getX()+SIZE/2;
+        int yRaw= getY()+SIZE/2;
         int xBoom= xRaw-xRaw%SIZE+15;
         int yBoom= yRaw-yRaw%SIZE;
         int lengBoom=this.lenghBoomBang;

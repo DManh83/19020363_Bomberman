@@ -3,22 +3,46 @@ package com.manh.bomberman.entitis;
 import javax.swing.*;
 import java.awt.*;
 
-import static com.manh.bomberman.entitis.MapItem.SIZE;
-
-public class Bomb {
-    private int x;
-    private int y;
+public class Bomb extends Entity{
     public int checkBoom;
-    private Image image;
-    private final int lenghBoom;
+    private int lenghBoom;
 
     public Bomb(int x, int y, int lenghBoom) {
-        this.x = x-20;
-        this.y = y;
+        super(x - 20, y);
         this.lenghBoom = lenghBoom;
         this.checkBoom = 1;
-        this.image = new ImageIcon(getClass().getResource("/res/drawable/images/bomb.png")).getImage();
+        setImage(BOMB);
         boomBang();
+    }
+
+    @Override
+    public int getX() {
+        return super.getX();
+    }
+
+    @Override
+    public void setX(int x) {
+        super.setX(x);
+    }
+
+    @Override
+    public int getY() {
+        return super.getY();
+    }
+
+    @Override
+    public void setY(int y) {
+        super.setY(y);
+    }
+
+    @Override
+    public Image getImage() {
+        return super.getImage();
+    }
+
+    @Override
+    public void setImage(Image image) {
+        super.setImage(image);
     }
 
     public int isCheckBoom() {
@@ -30,16 +54,16 @@ public class Bomb {
     }
 
     public void draw(Graphics2D g2d){
-        g2d.drawImage(image,x,y,SIZE,SIZE,null);
+        g2d.drawImage(getImage(),getX(),getY(),SIZE,SIZE,null);
     }
 
     public Rectangle getRect(){
-        return new Rectangle(x+15,y+15,SIZE-10,SIZE-10);
+        return new Rectangle(getX()+15,getY()+15,SIZE-10,SIZE-10);
     }
 
     public BombBang boomBang(){
-        int xRaw= x-10;
-        int yRaw= y-10;
+        int xRaw= getX()-10;
+        int yRaw= getY()-10;
         return new BombBang(xRaw,yRaw, this.lenghBoom);
     }
 }

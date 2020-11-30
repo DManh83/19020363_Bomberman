@@ -5,51 +5,77 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.Random;
 
-import static com.manh.bomberman.entitis.MapItem.SIZE;
-
-public class Boss {
-    private int x;
-    private int y;
-    private int orient;
-    private Image image;
+public class Boss extends Entity{
     private final Random random= new Random();
     public static final int LEFT = 0;
     public static final int RIGHT = 1;
     public static final int UP = 2;
     public static final int DOWN = 3;
 
-    public final Image[] BOSS ={
-            new ImageIcon(getClass().getResource("/res/drawable/images/boss_left.png")).getImage(),
-            new ImageIcon(getClass().getResource("/res/drawable/images/boss_right.png")).getImage(),
-            new ImageIcon(getClass().getResource("/res/drawable/images/boss_up.png")).getImage(),
-            new ImageIcon(getClass().getResource("/res/drawable/images/boss_down.png")).getImage(),
-    };
-
-
     public Boss(int x, int y, int orient) {
-        this.x = x;
-        this.y = y;
-        this.orient = orient;
+        super(x, y, orient);
     }
 
+    @Override
+    public Image getImage() {
+        return super.getImage();
+    }
+
+    @Override
+    public void setImage(Image image) {
+        super.setImage(image);
+    }
+
+    @Override
+    public int getOrient() {
+        return super.getOrient();
+    }
+
+    @Override
+    public void setOrient(int orient) {
+        super.setOrient(orient);
+    }
+
+    @Override
+    public int getSpeed() {
+        return super.getSpeed();
+    }
+
+    @Override
+    public void setSpeed(int speed) {
+        super.setSpeed(speed);
+    }
+
+    @Override
     public int getX() {
-        return x;
+        return super.getX();
     }
 
+    @Override
     public void setX(int x) {
-        this.x = x;
+        super.setX(x);
     }
 
+    @Override
     public int getY() {
-        return y;
+        return super.getY();
     }
 
+    @Override
     public void setY(int y) {
-        this.y = y;
+        super.setY(y);
+    }
+
+    @Override
+    public void draw(Graphics2D g2d){ g2d.drawImage(getImage(),getX(),getY(),SIZE,SIZE,null); }
+
+    @Override
+    public Rectangle getRect() {
+        return new Rectangle(getX(),getY()+15,SIZE-10,SIZE-5);
     }
 
     public void changeOrient(int newOrient){
-        orient=newOrient;
+        setOrient(newOrient);
     }
 
     public void creatOrient(){
@@ -57,16 +83,9 @@ public class Boss {
         if (percent>95){
             int newOrient=random.nextInt(4);
             changeOrient(newOrient);
-            image= BOSS[newOrient];
+            setImage(BOSS[newOrient]);
         }
     }
-
-    public void drawBoss(Graphics2D g2d){
-
-        g2d.drawImage(image,x,y,SIZE,SIZE,null);
-
-    }
-
 
     public boolean checkMoveBoom(ArrayList<Bomb> arrBomb){
         for (Bomb bomb : arrBomb) {
@@ -80,9 +99,9 @@ public class Boss {
 
     public void moveBoss(ArrayList<MapItem> arrMapItem, ArrayList<Bomb> arrBomb) {
         int speed = 2;
-        int xRaw = x;
-        int yRaw = y;
-        switch (orient) {
+        int xRaw = getX();
+        int yRaw = getY();
+        switch (getOrient()) {
             case LEFT:
                 xRaw -= speed;
                 break;
@@ -96,19 +115,19 @@ public class Boss {
                 yRaw += speed;
             default:
         }
-        int xRaw1 = x;
-        int yRaw1 = y;
-        x = xRaw;
-        y = yRaw;
+        int xRaw1 = getX();
+        int yRaw1 = getY();
+        setX(xRaw);
+        setY(yRaw);
         boolean checkMoveBoss = checkMove(arrMapItem);
         boolean checkMoveBossBoom= checkMoveBoom(arrBomb);
         if (checkMoveBoss){
-            x=xRaw1;
-            y=yRaw1;
+            setX(xRaw1);
+            setY(yRaw1);
         }
         if (!checkMoveBossBoom){
-            x=xRaw1;
-            y=yRaw1;
+            setX(xRaw1);
+            setY(yRaw1);
         }
         creatOrient();
     }
@@ -125,11 +144,6 @@ public class Boss {
             }
         }
         return  false;
-    }
-
-
-    public Rectangle getRect() {
-        return new Rectangle(x,y+15,SIZE-10,SIZE-5);
     }
 }
 

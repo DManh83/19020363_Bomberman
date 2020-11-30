@@ -9,8 +9,8 @@ import java.awt.event.KeyListener;
 import java.util.BitSet;
 
 public class PanelGame extends JPanel implements KeyListener,Runnable{
-    private GameManager gameManager=new GameManager();
-    private BitSet bitSet=new BitSet(256);
+    private final GameManager gameManager = new GameManager();
+    private final BitSet bitSet = new BitSet(256);
     boolean isRunning=true;
     public static final int TIME_DAT=20;
     public void initPanelGame() {

@@ -4,38 +4,59 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.Random;
 
-import static com.manh.bomberman.entitis.MapItem.SIZE;
-
-public class Item {
-    private int x;
-    private int y;
+public class Item extends Entity{
     private int bitItem;
-    private Image image;
-    public final Image[] ITEM_IMAGE={
-            new ImageIcon(getClass().getResource("/res/drawable/images/item_bomb.png")).getImage(),
-            new ImageIcon(getClass().getResource("/res/drawable/images/item_bombsize.png")).getImage(),
-            new ImageIcon(getClass().getResource("/res/drawable/images/item_shoe.png")).getImage(),
-    };
 
     public Item(int x, int y) {
+        super(x, y);
         Random random = new Random();
         int rd= random.nextInt(3);
-        this.x = x;
-        this.y = y;
         this.bitItem=rd;
-        this.image=ITEM_IMAGE[rd];
+        setImage(ITEM_IMAGE[rd]);
+    }
+
+    @Override
+    public int getX() {
+        return super.getX();
+    }
+
+    @Override
+    public void setX(int x) {
+        super.setX(x);
+    }
+
+    @Override
+    public int getY() {
+        return super.getY();
+    }
+
+    @Override
+    public void setY(int y) {
+        super.setY(y);
+    }
+
+    @Override
+    public Image getImage() {
+        return super.getImage();
+    }
+
+    @Override
+    public void setImage(Image image) {
+        super.setImage(image);
+    }
+
+    @Override
+    public Rectangle getRect(){
+        return new Rectangle(getX()+getImage().getWidth(null)/2,getY()+getImage().getHeight(null)/2,SIZE-30,SIZE-25);
+    }
+
+    @Override
+    public void draw(Graphics2D g2d){
+        g2d.drawImage(getImage(),getX()+4,getY()+4,SIZE-15,SIZE-15,null);
     }
 
     public int getBitItem() {
         return bitItem;
-    }
-
-    public Rectangle getRect(){
-        return new Rectangle(x+image.getWidth(null)/2,y+image.getHeight(null)/2,SIZE-30,SIZE-25);
-    }
-
-    public void draw(Graphics2D g2d){
-        g2d.drawImage(image,x+4,y+4,SIZE-15,SIZE-15,null);
     }
 }
 

@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.ConcurrentModificationException;
 import java.util.Random;
 
-import static com.manh.bomberman.entitis.MapItem.SIZE;
+import static com.manh.bomberman.entitis.Entity.SIZE;
 import static com.manh.bomberman.gui.Gui.H_FARME;
 import static com.manh.bomberman.gui.Gui.W_FARME;
 
@@ -21,9 +21,8 @@ public class GameManager {
     private ArrayList<Item> arrItem;
     public static final int TIME_BANG=120;
     public static final int TIME_WAVE=15;
-    private int timeDie;
     private boolean checkWin;
-    private Random random=new Random();
+    private final Random random=new Random();
     private ArrayList<Integer> timeBoom;
     private ArrayList<Integer> timeWave;
     public final Image[] MY_IMAGE={
@@ -102,7 +101,7 @@ public class GameManager {
             }
 
             for (Boss boss : arrBoss) {
-                boss.drawBoss(g2d);
+                boss.draw(g2d);
             }
             bomber.draw(g2d);
         }catch (ConcurrentModificationException ignored){
@@ -148,7 +147,6 @@ public class GameManager {
         }
         for (int i = 0; i< arrBombBang.size(); i++){
             if(arrBombBang.get(i).checkBoomToPlayer(arrBombBang, bomber)){
-                timeDie=t;
                 setCheckWin(false);
                 return false;
             }
