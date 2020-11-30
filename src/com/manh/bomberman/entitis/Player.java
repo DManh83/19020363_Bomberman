@@ -78,14 +78,14 @@ public class Player {
         isPlayerRun=true;
     }
 
-    public boolean isIrun() {
+    public boolean isStop() {
         return !isPlayerRun;
     }
 
     public void draw(Graphics2D g2d){
         switch (orient){
             case LEFT:{
-                if (isIrun()){
+                if (isStop()){
                     g2d.drawImage(IMAGES_PLAYER_LEFT[0],x,y,SIZE+5,SIZE+15,null);
                 }
                 else {
@@ -95,7 +95,7 @@ public class Player {
                 break;
             }
             case RIGHT:{
-                if (isIrun()){
+                if (isStop()){
                     g2d.drawImage(IMAGES_PLAYER_RIGHT[0],x,y,SIZE+5,SIZE+15,null);
                 }
                 else {
@@ -105,7 +105,7 @@ public class Player {
                 break;
             }
             case UP:{
-                if (isIrun()){
+                if (isStop()){
                     g2d.drawImage(IMAGES_PLAYER_UP[0],x,y,SIZE+5,SIZE+15,null);
                 }
                 else {
@@ -115,7 +115,7 @@ public class Player {
                 break;
             }
             case DOWN:{
-                if (isIrun()){
+                if (isStop()){
                     g2d.drawImage(IMAGES_PLAYER_DOWN[0],x,y,SIZE+5,SIZE+15,null);
                 }
                 else {
