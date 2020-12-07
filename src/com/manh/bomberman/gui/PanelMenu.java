@@ -1,5 +1,8 @@
 package com.manh.bomberman.gui;
 
+import res.drawable.sounds.Sound;
+
+import javax.sound.sampled.Clip;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -67,10 +70,14 @@ public class PanelMenu extends JPanel implements ActionListener {
         String run= e.getActionCommand();
         switch (run){
             case START:{
+                Clip clip= Sound.getSound(getClass().getResource("/res/drawable/sounds/click.wav"));
+                clip.start();
                 container.showCard(Container.PANEL_GAME);
                 break;
             }
             case EXIT:{
+                Clip clip= Sound.getSound(getClass().getResource("/res/drawable/sounds/click.wav"));
+                clip.start();
                 System.exit(0);
             }
         }

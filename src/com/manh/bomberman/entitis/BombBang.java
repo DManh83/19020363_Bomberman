@@ -1,11 +1,14 @@
 package com.manh.bomberman.entitis;
 
+import res.drawable.sounds.Sound;
+
+import javax.sound.sampled.Clip;
 import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
 
 public class BombBang extends Entity{
-    public int lengh=2;
+    public int lengh = 2;
     private int lenghLeft = lengh;
     private int lenghRight = lengh;
     private int lenghUp = lengh;
@@ -52,7 +55,7 @@ public class BombBang extends Entity{
         return null;
     }
 
-    public boolean checkBoomToPlayer(ArrayList<BombBang> arrBombBang, Bomber bomber){
+    public boolean checkBombToPlayer(ArrayList<BombBang> arrBombBang, Bomber bomber){
         for (int i = 0; i< arrBombBang.size(); i++){
             Rectangle rectangle1= getRect(getX()+10,getY()+20).intersection(bomber.getRect());
             if (!rectangle1.isEmpty()){
@@ -94,7 +97,7 @@ public class BombBang extends Entity{
         return false;
     }
 
-    public void checkBoomToBoss(ArrayList<Boss> arrBoss) {
+    public void checkBombToBoss(ArrayList<Boss> arrBoss) {
         for (int i = 0; i < arrBoss.size(); i++) {
             try {
                 Rectangle rectangle1= getRect(getX()+10,getY()+20).intersection(arrBoss.get(i).getRect());
@@ -102,6 +105,8 @@ public class BombBang extends Entity{
                     xBossDie= arrBoss.get(i).getX();
                     yBossDie=arrBoss.get(i).getY();
                     arrBoss.remove(i);
+                    Clip clip= Sound.getSound(getClass().getResource("/res/drawable/sounds/bang_bang.wav"));
+                    clip.start();
                 }
                 for (int j = 1; j <= lenghLeft; j++) {
                     int xRaw = getX() - j * SIZE + 10;
@@ -111,6 +116,8 @@ public class BombBang extends Entity{
                         xBossDie= arrBoss.get(i).getX();
                         yBossDie=arrBoss.get(i).getY();
                         arrBoss.remove(i);
+                        Clip clip= Sound.getSound(getClass().getResource("/res/drawable/sounds/bang_bang.wav"));
+                        clip.start();
                     }
                 }
                 for (int j = 1; j <= lenghRight; j++) {
@@ -121,6 +128,8 @@ public class BombBang extends Entity{
                         xBossDie= arrBoss.get(i).getX();
                         yBossDie=arrBoss.get(i).getY();
                         arrBoss.remove(i);
+                        Clip clip= Sound.getSound(getClass().getResource("/res/drawable/sounds/bang_bang.wav"));
+                        clip.start();
                     }
                 }
                 for (int j = 1; j <= lenghUp; j++) {
@@ -131,7 +140,8 @@ public class BombBang extends Entity{
                         xBossDie= arrBoss.get(i).getX();
                         yBossDie=arrBoss.get(i).getY();
                         arrBoss.remove(i);
-
+                        Clip clip= Sound.getSound(getClass().getResource("/res/drawable/sounds/bang_bang.wav"));
+                        clip.start();
                     }
                 }
                 for (int j = 1; j <= lenghDown; j++) {
@@ -142,6 +152,8 @@ public class BombBang extends Entity{
                         xBossDie= arrBoss.get(i).getX();
                         yBossDie=arrBoss.get(i).getY();
                         arrBoss.remove(i);
+                        Clip clip= Sound.getSound(getClass().getResource("/res/drawable/sounds/bang_bang.wav"));
+                        clip.start();
                     }
                 }
             }catch (IndexOutOfBoundsException ignored){
@@ -149,18 +161,18 @@ public class BombBang extends Entity{
         }
     }
 
-    public void checkBoomToBoom(ArrayList<Bomb> arrBomb, ArrayList<Integer> timeBoom) {
+    public void checkBombToBomb(ArrayList<Bomb> arrBomb, ArrayList<Integer> timeBomb) {
         for (int i = 0; i < arrBomb.size(); i++) {
             Rectangle rectangle1= getRect(getX()+10,getY()+20).intersection(arrBomb.get(i).getRect());
             if (!rectangle1.isEmpty()){
-                timeBoom.set(i,0);
+                timeBomb.set(i,0);
             }
             for (int j=1;j<=lenghLeft;j++) {
                 int xRaw = getX() - j * SIZE + 10;
                 int yRaw = getY() + 20;
                 Rectangle rectangle = getRect(xRaw, yRaw).intersection(arrBomb.get(i).getRect());
                 if (!rectangle.isEmpty()) {
-                    timeBoom.set(i, 0);
+                    timeBomb.set(i, 0);
                 }
             }
             for (int j=1;j<=lenghRight;j++) {
@@ -168,7 +180,7 @@ public class BombBang extends Entity{
                 int yRaw = getY() + 20;
                 Rectangle rectangle = getRect(xRaw, yRaw).intersection(arrBomb.get(i).getRect());
                 if (!rectangle.isEmpty()) {
-                    timeBoom.set(i, 0);
+                    timeBomb.set(i, 0);
                 }
             }
             for (int j=1;j<=lenghUp;j++) {
@@ -176,7 +188,7 @@ public class BombBang extends Entity{
                 int yRaw = getY() - j*SIZE + 20;
                 Rectangle rectangle = getRect(xRaw, yRaw).intersection(arrBomb.get(i).getRect());
                 if (!rectangle.isEmpty()) {
-                    timeBoom.set(i, 0);
+                    timeBomb.set(i, 0);
                 }
             }
             for (int j=1;j<=lenghDown;j++) {
@@ -184,7 +196,7 @@ public class BombBang extends Entity{
                 int yRaw = getY()+j*SIZE+20;
                 Rectangle rectangle = getRect(xRaw, yRaw).intersection(arrBomb.get(i).getRect());
                 if (!rectangle.isEmpty()) {
-                    timeBoom.set(i, 0);
+                    timeBomb.set(i, 0);
                 }
             }
         }
@@ -207,7 +219,7 @@ public class BombBang extends Entity{
     }
 
     public void drawMid(Graphics2D g2d) {
-        g2d.drawImage(BOOM_BANG[4], getX() + 12, getY() + 16, null);
+        g2d.drawImage(BOMB_BANG[4], getX() + 12, getY() + 16, null);
     }
 
     public void drawLeft(Graphics2D g2d, ArrayList<MapItem> arrMapItem) {
@@ -215,9 +227,9 @@ public class BombBang extends Entity{
             int xRaw = getX() - j * SIZE + 11;
             int yRaw = getY() + 20;
             if (j==lenghLeft) {
-                g2d.drawImage(BOOM_BANG[0], xRaw+5, yRaw-6, null);
+                g2d.drawImage(BOMB_BANG[0], xRaw+5, yRaw-6, null);
             }else {
-                g2d.drawImage(BOOM_BANG[5], xRaw, yRaw-6, null);
+                g2d.drawImage(BOMB_BANG[5], xRaw, yRaw-6, null);
             }
             for (int i = 0; i < arrMapItem.size(); i++) {
                 Rectangle rectangle = getRect(xRaw,yRaw).intersection(arrMapItem.get(i).getRect());
@@ -241,9 +253,9 @@ public class BombBang extends Entity{
             int xRaw = getX() + j*SIZE + 15;
             int yRaw = getY() + 20;
             if (j==lenghRight) {
-                g2d.drawImage(BOOM_BANG[1], xRaw-5, yRaw-6, null);
+                g2d.drawImage(BOMB_BANG[1], xRaw-5, yRaw-6, null);
             }else {
-                g2d.drawImage(BOOM_BANG[6], xRaw, yRaw-6, null);
+                g2d.drawImage(BOMB_BANG[6], xRaw, yRaw-6, null);
             }
             for (int i = 0; i < arrMapItem.size(); i++) {
                 Rectangle rectangle = getRect(xRaw,yRaw).intersection(arrMapItem.get(i).getRect());
@@ -268,9 +280,9 @@ public class BombBang extends Entity{
             int xRaw = getX() + 15;
             int yRaw = getY() - j*SIZE + 12;
             if (j==lenghUp) {
-                g2d.drawImage(BOOM_BANG[2], xRaw, yRaw+5, null);
+                g2d.drawImage(BOMB_BANG[2], xRaw, yRaw+5, null);
             }else {
-                g2d.drawImage(BOOM_BANG[7], xRaw, yRaw, null);
+                g2d.drawImage(BOMB_BANG[7], xRaw, yRaw, null);
             }
             for (int i = 0; i < arrMapItem.size(); i++) {
                 Rectangle rectangle = getRect(xRaw,yRaw).intersection(arrMapItem.get(i).getRect());
@@ -297,9 +309,9 @@ public class BombBang extends Entity{
             int xRaw = getX()+14;
             int yRaw = getY()+j*SIZE+18;
             if (j==lenghDown) {
-                g2d.drawImage(BOOM_BANG[3], xRaw, yRaw-5, null);
+                g2d.drawImage(BOMB_BANG[3], xRaw, yRaw-5, null);
             }else {
-                g2d.drawImage(BOOM_BANG[8], xRaw, yRaw, null);
+                g2d.drawImage(BOMB_BANG[8], xRaw, yRaw, null);
             }
             for (int i = 0; i < arrMapItem.size(); i++) {
                 Rectangle rectangle = getRect(xRaw,yRaw).intersection(arrMapItem.get(i).getRect());

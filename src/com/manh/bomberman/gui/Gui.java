@@ -11,7 +11,7 @@ public class Gui extends JFrame {
     }
 
     private void initGui() {
-        setTitle("Boom");
+        setTitle("Bomb");
         setSize(W_FARME,H_FARME);
         setResizable(false);
         setLocationRelativeTo(null);

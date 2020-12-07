@@ -1,6 +1,5 @@
 package com.manh.bomberman.entitis;
 
-import javax.swing.*;
 import java.awt.*;
 
 public class MapItem extends Entity{

@@ -1,6 +1,5 @@
 package com.manh.bomberman.entitis;
 
-import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.Random;
@@ -87,10 +86,10 @@ public class Boss extends Entity{
         }
     }
 
-    public boolean checkMoveBoom(ArrayList<Bomb> arrBomb){
+    public boolean checkMoveBomb(ArrayList<Bomb> arrBomb){
         for (Bomb bomb : arrBomb) {
             Rectangle rectangle = getRect().intersection(bomb.getRect());
-            if (!rectangle.isEmpty() && bomb.isCheckBoom() == 0) {
+            if (!rectangle.isEmpty() && bomb.isCheckBomb() == 0) {
                 return false;
             }
         }
@@ -120,12 +119,12 @@ public class Boss extends Entity{
         setX(xRaw);
         setY(yRaw);
         boolean checkMoveBoss = checkMove(arrMapItem);
-        boolean checkMoveBossBoom= checkMoveBoom(arrBomb);
+        boolean checkMoveBossBomb= checkMoveBomb(arrBomb);
         if (checkMoveBoss){
             setX(xRaw1);
             setY(yRaw1);
         }
-        if (!checkMoveBossBoom){
+        if (!checkMoveBossBomb){
             setX(xRaw1);
             setY(yRaw1);
         }

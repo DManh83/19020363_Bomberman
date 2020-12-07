@@ -1,6 +1,9 @@
 package com.manh.bomberman.manager;
 
 import com.manh.bomberman.entitis.*;
+import res.drawable.sounds.Sound;
+
+import javax.sound.sampled.Clip;
 import javax.swing.*;
 import java.awt.*;
 import java.io.*;
@@ -23,8 +26,10 @@ public class GameManager {
     public static final int TIME_WAVE=15;
     private boolean checkWin;
     private final Random random=new Random();
-    private ArrayList<Integer> timeBoom;
+    private ArrayList<Integer> timeBomb;
     private ArrayList<Integer> timeWave;
+    private Clip clip1;
+
     public final Image[] MY_IMAGE={
             new ImageIcon(getClass().getResource("/res/drawable/images/background.jpg")).getImage()
     };
@@ -38,7 +43,12 @@ public class GameManager {
     }
 
     public void initGame(){
-        timeBoom=new ArrayList<>();
+        Clip clip = Sound.getSound(getClass().getResource("/res/drawable/sounds/start.wav"));
+        clip.start();
+        clip1 =Sound.getSound(getClass().getResource("/res/drawable/sounds/soundGame.wav"));
+        clip1.start();
+        clip1.loop(100);
+        timeBomb =new ArrayList<>();
         timeWave=new ArrayList<>();
         arrBomb =new ArrayList<>();
         arrBoss= new ArrayList<>();
@@ -109,11 +119,13 @@ public class GameManager {
         }
     }
 
-    public void myPlayerBoom(int t){
-        Bomb bomb = bomber.DatBoom();
-        if (arrBomb.size()< bomber.getSoBoom()){
+    public void myPlayerBomb(int t){
+        Bomb bomb = bomber.DatBomb();
+        if (arrBomb.size()< bomber.getSoBomb()){
             arrBomb.add(bomb);
-            timeBoom.add(t);
+            Clip clip = Sound.getSound(getClass().getResource("/res/drawable/sounds/set_bomb.wav"));
+            clip.start();
+            timeBomb.add(t);
         }
     }
 
@@ -122,36 +134,41 @@ public class GameManager {
             arrBoss.get(i).moveBoss(arrMapItem, arrBomb);
         }
         for (int i = 0; i< arrBomb.size(); i++){
-            if (t-timeBoom.get(i) >=TIME_BANG){
-                BombBang bombBang = arrBomb.get(i).boomBang();
+            if (t- timeBomb.get(i) >=TIME_BANG){
+                BombBang bombBang = arrBomb.get(i).bombBang();
                 arrBomb.remove(i);
+                Clip clip=Sound.getSound(getClass().getResource("/res/drawable/sounds/bomb_bang.wav"));
+                clip.start();
                 arrBombBang.add(bombBang);
-                timeBoom.remove(i);
+                timeBomb.remove(i);
                 try {
-                    bombBang.checkBoomToBoom(arrBomb, timeBoom);
+                    bombBang.checkBombToBomb(arrBomb, timeBomb);
                 }catch (IndexOutOfBoundsException ignored){
                 }
                 timeWave.add(t);
             }
         }
         for (int i = 0; i< arrBombBang.size(); i++){
-            arrBombBang.get(i).checkBoomToBoss(arrBoss);
+            arrBombBang.get(i).checkBombToBoss(arrBoss);
             if (t-timeWave.get(i)>=TIME_WAVE){
                 arrBombBang.remove(i);
                 timeWave.remove(i);
             }
         }
         if (bomber.checkDieToBoss(arrBoss)){
+            clip1.stop();
             setCheckWin(false);
             return false;
         }
         for (int i = 0; i< arrBombBang.size(); i++){
-            if(arrBombBang.get(i).checkBoomToPlayer(arrBombBang, bomber)){
+            if(arrBombBang.get(i).checkBombToPlayer(arrBombBang, bomber)){
+                clip1.stop();
                 setCheckWin(false);
                 return false;
             }
         }
         if (arrBoss.isEmpty()){
+            clip1.stop();
             setCheckWin(true);
             return false;
         }

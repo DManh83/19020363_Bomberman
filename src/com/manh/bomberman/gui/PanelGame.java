@@ -2,6 +2,9 @@ package com.manh.bomberman.gui;
 
 import com.manh.bomberman.manager.GameManager;
 import com.manh.bomberman.entitis.Bomber;
+import res.drawable.sounds.Sound;
+
+import javax.sound.sampled.Clip;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
@@ -13,6 +16,7 @@ public class PanelGame extends JPanel implements KeyListener,Runnable{
     private final BitSet bitSet = new BitSet(256);
     boolean isRunning=true;
     public static final int TIME_DAT=20;
+    private int timeLose = 0;
     public void initPanelGame() {
         gameManager.initGame();
         Thread t= new Thread(this);
@@ -44,14 +48,17 @@ public class PanelGame extends JPanel implements KeyListener,Runnable{
             }try {
                 if (bitSet.get(KeyEvent.VK_SPACE)){
                     if (t-time>=TIME_DAT) {
-                        gameManager.myPlayerBoom(t);
+                        gameManager.myPlayerBomb(t);
                     }
                     time=t;
                 }
             }catch (Exception ignored){
             }
             isRunning=gameManager.AI(t);
+
             if (!isRunning && !gameManager.isCheckWin()){
+                Clip clip = Sound.getSound(getClass().getResource("/res/drawable/sounds/die.wav"));
+                clip.start();
                 int result= JOptionPane.showConfirmDialog(null,"Are you want Play Again?","GAME OVER",JOptionPane.YES_NO_OPTION);
                 if (result == JOptionPane.YES_OPTION){
                     bitSet.clear();
@@ -62,6 +69,8 @@ public class PanelGame extends JPanel implements KeyListener,Runnable{
                 }
             }
             if (!isRunning && gameManager.isCheckWin()){
+                Clip clip=Sound.getSound(getClass().getResource("/res/drawable/sounds/win.wav"));
+                clip.start();
                 int result= JOptionPane.showConfirmDialog(null,"Are you want Play Again?","YOU WIN",JOptionPane.YES_NO_OPTION);
                 if (result == JOptionPane.YES_OPTION){
                     bitSet.clear();

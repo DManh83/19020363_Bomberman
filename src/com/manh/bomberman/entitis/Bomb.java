@@ -1,18 +1,17 @@
 package com.manh.bomberman.entitis;
 
-import javax.swing.*;
 import java.awt.*;
 
 public class Bomb extends Entity{
-    public int checkBoom;
-    private int lenghBoom;
+    public int checkBomb;
+    private int lenghBomb;
 
-    public Bomb(int x, int y, int lenghBoom) {
+    public Bomb(int x, int y, int lenghBomb) {
         super(x - 20, y);
-        this.lenghBoom = lenghBoom;
-        this.checkBoom = 1;
+        this.lenghBomb = lenghBomb;
+        this.checkBomb = 1;
         setImage(BOMB);
-        boomBang();
+        bombBang();
     }
 
     @Override
@@ -45,12 +44,12 @@ public class Bomb extends Entity{
         super.setImage(image);
     }
 
-    public int isCheckBoom() {
-        return checkBoom;
+    public int isCheckBomb() {
+        return checkBomb;
     }
 
-    public void setCheckBoom(int checkBoom) {
-        this.checkBoom = checkBoom;
+    public void setCheckBomb(int checkBomb) {
+        this.checkBomb = checkBomb;
     }
 
     public void draw(Graphics2D g2d){
@@ -61,10 +60,10 @@ public class Bomb extends Entity{
         return new Rectangle(getX()+15,getY()+15,SIZE-10,SIZE-10);
     }
 
-    public BombBang boomBang(){
+    public BombBang bombBang(){
         int xRaw= getX()-10;
         int yRaw= getY()-10;
-        return new BombBang(xRaw,yRaw, this.lenghBoom);
+        return new BombBang(xRaw,yRaw, this.lenghBomb);
     }
 }
 

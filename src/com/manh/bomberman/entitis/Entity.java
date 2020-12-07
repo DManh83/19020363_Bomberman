@@ -16,7 +16,6 @@ public abstract class Entity {
     public static final int DOWN=3;
     public static final int SIZE = 45;
 
-
     public final Image[] IMAGES_BOMBER_LEFT = {
             new ImageIcon(getClass().getResource("/res/drawable/images/player_left_1.png")).getImage(),
             new ImageIcon(getClass().getResource("/res/drawable/images/player_left_2.png")).getImage(),
@@ -56,7 +55,7 @@ public abstract class Entity {
 
     public final Image BOMB = new ImageIcon(getClass().getResource("/res/drawable/images/bomb.png")).getImage();
 
-    public final Image[] BOOM_BANG = {
+    public final Image[] BOMB_BANG = {
             new ImageIcon(getClass().getResource("/res/drawable/images/bombbang_left_2.png")).getImage(),
             new ImageIcon(getClass().getResource("/res/drawable/images/bombbang_right_2.png")).getImage(),
             new ImageIcon(getClass().getResource("/res/drawable/images/bombbang_up_2.png")).getImage(),

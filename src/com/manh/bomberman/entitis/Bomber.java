@@ -1,14 +1,16 @@
 package com.manh.bomberman.entitis;
 
-import javax.swing.*;
+import res.drawable.sounds.Sound;
+
+import javax.sound.sampled.Clip;
 import java.awt.*;
 import java.util.ArrayList;
 
 public class Bomber extends Entity{
-    private int soBoom=1;
+    private int soBomb =1;
     private int speed=2;
     private int timeMove;
-    private int lenghBoomBang=1;
+    private int lenghBombBang =1;
     private boolean isPlayerRun= false;
     private int imageIndex=0;
 
@@ -109,12 +111,12 @@ public class Bomber extends Entity{
         return new Rectangle(getX(),getY()+25,SIZE-10,SIZE-10);
     }
 
-    public int getSoBoom() {
-        return soBoom;
+    public int getSoBomb() {
+        return soBomb;
     }
 
-    public void setSoBoom(int soBoom) {
-        this.soBoom = soBoom+1;
+    public void setSoBomb(int soBomb) {
+        this.soBomb = soBomb +1;
     }
 
     public int getSpeed() {
@@ -126,6 +128,7 @@ public class Bomber extends Entity{
     }
 
     public void changeOrient(int newOrient){
+
         setOrient(newOrient);
         isPlayerRun=true;
     }
@@ -148,20 +151,20 @@ public class Bomber extends Entity{
         return false;
     }
 
-    public void setMoveBoom(ArrayList<Bomb> arrBomb){
+    public void setMoveBomb(ArrayList<Bomb> arrBomb){
         for (Bomb bomb : arrBomb) {
             Rectangle rectangle = getRect().intersection(bomb.getRect());
             if (rectangle.isEmpty()) {
-                bomb.setCheckBoom(0);
+                bomb.setCheckBomb(0);
             }
         }
     }
 
-    public boolean checkMoveBoom(ArrayList<Bomb> arrBomb){
-        setMoveBoom(arrBomb);
+    public boolean checkMoveBomb(ArrayList<Bomb> arrBomb){
+        setMoveBomb(arrBomb);
         for (Bomb bomb : arrBomb) {
             Rectangle rectangle = getRect().intersection(bomb.getRect());
-            if (!rectangle.isEmpty() && bomb.isCheckBoom() == 0) {
+            if (!rectangle.isEmpty() && bomb.isCheckBomb() == 0) {
                 return false;
             }
         }
@@ -193,12 +196,12 @@ public class Bomber extends Entity{
         setX(xRaw);
         setY(yRaw);
         boolean checkMovePlayer= checkMoveMap(arrMapItem);
-        boolean checkMovePlayerToBoom= checkMoveBoom(arrBomb);
+        boolean checkMovePlayerToBomb= checkMoveBomb(arrBomb);
         if (checkMovePlayer){
             setX(xRaw1);
             setY(yRaw1);
         }
-        if (!checkMovePlayerToBoom){
+        if (!checkMovePlayerToBomb){
             setX(xRaw1);
             setY(yRaw1);
         }
@@ -214,13 +217,13 @@ public class Bomber extends Entity{
         return false;
     }
 
-    public Bomb DatBoom(){
+    public Bomb DatBomb(){
         int xRaw= getX()+SIZE/2;
         int yRaw= getY()+SIZE/2;
-        int xBoom= xRaw-xRaw%SIZE+15;
-        int yBoom= yRaw-yRaw%SIZE;
-        int lengBoom=this.lenghBoomBang;
-        return new Bomb(xBoom, yBoom,lengBoom);
+        int xBomb= xRaw-xRaw%SIZE+15;
+        int yBomb= yRaw-yRaw%SIZE;
+        int lengBomb=this.lenghBombBang;
+        return new Bomb(xBomb, yBomb,lengBomb);
     }
 
     public void moveItem(ArrayList<Item> arrItem){
@@ -228,17 +231,19 @@ public class Bomber extends Entity{
             Rectangle rectangle=getRect().intersection(arrItem.get(i).getRect());
             if (!rectangle.isEmpty()){
                 if (arrItem.get(i).getBitItem()==0){
-                    setSoBoom(soBoom);
+                    setSoBomb(soBomb);
                     arrItem.remove(i);
                 }
                 else if (arrItem.get(i).getBitItem()==1){
-                    lenghBoomBang++;
+                    lenghBombBang++;
                     arrItem.remove(i);
                 }
                 else if (arrItem.get(i).getBitItem()==2){
                     setSpeed(getSpeed()+1);
                     arrItem.remove(i);
                 }
+                Clip clip= Sound.getSound(getClass().getResource("/res/drawable/sounds/item.wav"));
+                clip.start();
             }
         }
     }
